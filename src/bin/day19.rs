@@ -9,14 +9,11 @@ struct Node {
     prev_elf_idx: usize,
 }
 
-const BIN_SIZE: usize = 4096;
-
 struct Ring {
     elves: Vec<Node>,
     remaining: usize,
     current_elf_idx: usize,
-    bins: Vec<usize>,
-    bins_first_elf_idx: Vec<usize>,
+    opposing_elf_idx: usize,
 }
 impl Ring {
     fn new(num_elves: usize) -> Self {
@@ -29,48 +26,25 @@ impl Ring {
                 prev_elf_idx: if idx == 0 { num_elves - 1 } else { idx - 1 },
             });
         }
-        let nbins = (num_elves - 1) / BIN_SIZE + 1;
-        let mut bins = Vec::with_capacity(nbins);
-        let mut bins_first_elf_idx = Vec::with_capacity(nbins);
-        for b in 0..nbins {
-            if b == nbins - 1 {
-                bins.push(num_elves % BIN_SIZE);
-            }
-            else {
-                bins.push(BIN_SIZE);
-            }
-            bins_first_elf_idx.push(b * BIN_SIZE);
+        Self {
+            elves,
+            remaining: num_elves,
+            current_elf_idx: 0,
+            opposing_elf_idx: num_elves / 2,
         }
-        Self { elves, remaining: num_elves, current_elf_idx: 0, bins, bins_first_elf_idx }
     }
     fn current_elf(&self) -> usize {
         self.elves[self.current_elf_idx].elf
     }
     fn advance(&mut self) {
         self.current_elf_idx = self.elves[self.current_elf_idx].next_elf_idx;
+        self.opposing_elf_idx = self.elves[self.opposing_elf_idx].next_elf_idx;
     }
     fn next_elf_index(&self) -> usize {
         self.elves[self.current_elf_idx].next_elf_idx
     }
     fn opposing_elf_index(&self) -> usize {
-        let mut offset = self.remaining / 2 - 1;
-        let mut index = self.elves[self.current_elf_idx].next_elf_idx;
-        while offset > 0 {
-            let mut bin = index / BIN_SIZE;
-            if self.bins_first_elf_idx[bin] == index {
-                if offset >= self.bins[bin] {
-                    while offset >= self.bins[bin] {
-                        offset -= self.bins[bin];
-                        bin = (bin + 1) % self.bins.len();
-                    }
-                    index = self.bins_first_elf_idx[bin];
-                    continue;
-                }
-            }
-            index = self.elves[index].next_elf_idx;
-            offset -= 1;
-        }
-        index
+        self.opposing_elf_idx
     }
     fn steal_from(&mut self, target: usize) {
         self.elves.get_mut(self.current_elf_idx).unwrap().gifts += self.elves[target].gifts;
@@ -81,14 +55,18 @@ impl Ring {
         let next_idx = self.elves[target].next_elf_idx;
         self.elves.get_mut(prev_idx).unwrap().next_elf_idx = next_idx;
         self.elves.get_mut(next_idx).unwrap().prev_elf_idx = prev_idx;
+        /*
         let t = self.elves.get_mut(target).unwrap();
         (*t).next_elf_idx = usize::MAX;
         (*t).prev_elf_idx = usize::MAX;
         (*t).gifts = 0;
-        let bin = target / BIN_SIZE;
-        self.bins[bin] -= 1;
-        if self.bins_first_elf_idx[bin] == target {
-            self.bins_first_elf_idx[bin] = next_idx;
+        */
+        if target == self.opposing_elf_idx {
+            self.opposing_elf_idx = if self.remaining % 2 == 0 {
+                prev_idx
+            } else {
+                next_idx
+            };
         }
         self.remaining -= 1;
     }

@@ -9,6 +9,7 @@ dependencies = [
  "advent_lib",
  "itertools",
  "lazy_static",
+ "linked-list",
  "md5",
  "regex",
 ]
@@ -57,6 +58,12 @@ name = "lazy_static"
 version = "1.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
+
+[[package]]
+name = "linked-list"
+version = "0.0.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a4dacf969043dc69f1f731b5042eb05e030d264bcf34f2242889fcbdc7a65f06"
 
 [[package]]
 name = "md5"

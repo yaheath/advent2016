@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "type": "lldb",
             "request": "launch",
@@ -451,34 +452,34 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug executable 'day13'",
+            "name": "Debug executable 'day19'",
             "cargo": {
                 "args": [
                     "build",
-                    "--bin=day13",
+                    "--bin=day19",
                     "--package=advent2016"
                 ],
                 "filter": {
-                    "name": "day13",
+                    "name": "day19",
                     "kind": "bin"
                 }
             },
-            "args": [],
+            "args": ["day19.input"],
             "cwd": "${workspaceFolder}"
         },
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug unit tests in executable 'day13'",
+            "name": "Debug unit tests in executable 'day19'",
             "cargo": {
                 "args": [
                     "test",
                     "--no-run",
-                    "--bin=day13",
+                    "--bin=day19",
                     "--package=advent2016"
                 ],
                 "filter": {
-                    "name": "day13",
+                    "name": "day19",
                     "kind": "bin"
                 }
             },

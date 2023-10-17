@@ -182,8 +182,8 @@ impl AssembunnyVM {
 
 fn part1(input: &Vec<Instruction>) -> i64 {
     let mut vm = AssembunnyVM::new(input, 7);
-    //vm.run();
-    let _ = Debugger::run(&mut vm.shell, &vm.cpu);
+    vm.run();
+    //let _ = Debugger::run(&mut vm.shell, &vm.cpu);
     vm.shell.vm.get_reg('a')
 }
 

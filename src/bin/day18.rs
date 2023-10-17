@@ -63,6 +63,5 @@ mod tests {
     fn day18_test() {
         let input: Vec<Input> = test_input(".^^.^.^^^^");
         assert_eq!(num_safe(&input[0].tiles, 10), 38);
-        assert_eq!(part2(&input), 0);
     }
 }

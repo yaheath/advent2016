@@ -1,7 +1,7 @@
-use std::collections::HashMap;
 use std::str::FromStr;
 use std::vec::Vec;
 use advent_lib::read::read_input;
+use advent_lib::vm_shell::{CPU, VM, VMShell, InstructionResult};
 
 #[derive(Clone, Copy, Debug)]
 enum RI {
@@ -20,7 +20,7 @@ impl FromStr for RI {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 enum Instruction {
     Cpy(RI,char),
     Inc(char),
@@ -49,78 +49,70 @@ impl FromStr for Instruction {
     }
 }
 
-#[derive(Clone, Copy)]
-enum RunResult {
-    Ok,
-    Halt,
-}
-
-struct VM<'a> {
-    registers: HashMap<char, i64>,
-    program: &'a Vec<Instruction>,
-    pc: i64,
-}
-impl<'a> VM<'a> {
-    fn new(program: &'a Vec<Instruction>, c: i64) -> Self {
-        let registers = HashMap::from_iter([('c', c)]);
-        Self { registers, program, pc: 0 }
-    }
-    fn step(&mut self) -> RunResult {
-        if self.pc < 0 || self.pc >= self.program.len() as i64 {
-            return RunResult::Halt;
-        }
-        let inst = &self.program[self.pc as usize];
-        match inst {
+struct AssembunnyCPU { }
+impl CPU<char, i64, Instruction> for AssembunnyCPU {
+    fn execute_instruction(&self, vm: &mut VM<char, i64, Instruction>, i: &Instruction) -> InstructionResult {
+        let resolve = |ri| {
+            match ri {
+                RI::Imm(x) => x,
+                RI::Reg(r) => vm.get_reg(r),
+            }
+        };
+        match i {
             Instruction::Cpy(x, y) => {
-                *self.registers.entry(*y).or_insert(0) = self.resolve(*x);
+                vm.set_reg(*y, resolve(*x));
             },
             Instruction::Inc(x) => {
-                self.registers.entry(*x).and_modify(|v| *v += 1).or_insert(1);
+                let n = vm.get_reg(*x) + 1;
+                vm.set_reg(*x, n);
             },
             Instruction::Dec(x) => {
-                self.registers.entry(*x).and_modify(|v| *v -= 1).or_insert(-1);
+                let n = vm.get_reg(*x) - 1;
+                vm.set_reg(*x, n);
             },
             Instruction::Jnz(x, y) => {
-                if self.resolve(*x) != 0 {
-                    self.pc += self.resolve(*y) - 1;
+                if resolve(*x) != 0 {
+                    let jump = resolve(*y);
+                    if jump < 0 {
+                        return InstructionResult::JumpBck(jump.abs() as usize);
+                    }
+                    else {
+                        return InstructionResult::JumpFwd(jump as usize);
+                    }
                 }
             },
         }
-        self.pc += 1;
-        if self.pc < 0 || self.pc >= self.program.len() as i64 {
-            RunResult::Halt
-        }
-        else {
-            RunResult::Ok
-        }
+        InstructionResult::Ok
     }
-    fn resolve(&self, ri: RI) -> i64 {
-        match ri {
-            RI::Imm(x) => x,
-            RI::Reg(r) => *self.registers.get(&r).unwrap_or(&0),
-        }
+}
+
+struct AssembunnyVM {
+    cpu: AssembunnyCPU,
+    shell: VMShell<char, i64, Instruction>,
+}
+
+impl AssembunnyVM {
+    fn new(program: &Vec<Instruction>, c: i64) -> Self {
+        let cpu = AssembunnyCPU{};
+        let mut shell = VMShell::new(program.clone(), 0);
+        shell.vm.set_reg('c', c);
+        Self { cpu, shell }
     }
-    fn run(&mut self) -> RunResult {
-        loop {
-            let r = self.step();
-            match r {
-                RunResult::Ok => {},
-                _ => return r,
-            }
-        }
+    fn run(&mut self) {
+        self.shell.run(&self.cpu);
     }
 }
 
 fn part1(input: &Vec<Instruction>) -> i64 {
-    let mut vm = VM::new(input, 0);
+    let mut vm = AssembunnyVM::new(input, 0);
     vm.run();
-    vm.registers[&'a']
+    vm.shell.vm.get_reg('a')
 }
 
 fn part2(input: &Vec<Instruction>) -> i64 {
-    let mut vm = VM::new(input, 1);
+    let mut vm = AssembunnyVM::new(input, 1);
     vm.run();
-    vm.registers[&'a']
+    vm.shell.vm.get_reg('a')
 }
 
 fn main() {

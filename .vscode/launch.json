@@ -316,7 +316,7 @@
                     "kind": "bin"
                 }
             },
-            "args": [],
+            "args": ["day12.input"],
             "cwd": "${workspaceFolder}"
         },
         {

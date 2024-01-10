@@ -2,8 +2,8 @@ use std::str::FromStr;
 use std::vec::Vec;
 use lazy_static::lazy_static;
 use regex::Regex;
-use advent_lib::grid::Grid;
-use advent_lib::read::read_input;
+use ya_advent_lib::grid::Grid;
+use ya_advent_lib::read::read_input;
 
 enum Input {
     Rect(i64,i64),
@@ -68,13 +68,13 @@ fn main() {
     let grid = process(&input, 50, 6);
     println!("Part 1: {}", grid.iter().filter(|c| **c).count());
     println!("Part 2:");
-    grid.print(|c| if c { '\u{2588}' } else { ' ' });
+    grid.print_str(|c| if c { "\u{2588}".into() } else { " ".into() });
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use advent_lib::read::test_input;
+    use ya_advent_lib::read::test_input;
 
     #[test]
     fn day08_test() {
@@ -86,7 +86,7 @@ mod tests {
         );
         let grid = process(&input, 7, 3);
         assert_eq!(
-            grid.format(|c| if c { '#' } else { '.' }),
+            grid.format_str(|c| if c { "#".into() } else { ".".into() }),
             ".#..#.#\n\
              #.#....\n\
              .#.....\n".to_string()

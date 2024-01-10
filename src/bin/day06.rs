@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use std::vec::Vec;
-use advent_lib::read::read_input;
+use ya_advent_lib::read::read_input;
 
 fn bothparts(input: &Vec<String>) -> (String, String) {
     let mut hists: Vec<HashMap<char, usize>> = Vec::with_capacity(input[0].len());
@@ -40,7 +40,7 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use advent_lib::read::test_input;
+    use ya_advent_lib::read::test_input;
 
     #[test]
     fn day06_test() {

@@ -5,8 +5,8 @@ use std::vec::Vec;
 use itertools::Itertools;
 use lazy_static::lazy_static;
 use regex::Regex;
-use advent_lib::coords::{CDir, Coord2D};
-use advent_lib::read2::{read_input, ParseErr};
+use ya_advent_lib::coords::{CDir, Coord2D};
+use ya_advent_lib::read::{read_input, ParseErr};
 
 struct Input {
     x: i64,
@@ -127,7 +127,7 @@ fn phase1(grid: &Grid) -> usize {
         .map(|(x,y)| Coord2D::new(x,y))
         .find(|c| grid.nodes[grid.index_for(*c)].used == 0)
         .unwrap();
-    let target = grid.target_loc + CDir::W.to_coord();
+    let target = grid.target_loc + CDir::W;
     let mut queue: BinaryHeap<(Reverse<i64>, Coord2D)> = BinaryHeap::new();
     let mut visited: HashMap<Coord2D,usize> = HashMap::new();
     queue.push((Reverse(hole.mdist_to(&target)), hole));
@@ -140,7 +140,7 @@ fn phase1(grid: &Grid) -> usize {
         let locsize = grid.get(loc).size;
         for nc in [CDir::N, CDir::S, CDir::E, CDir::W]
             .iter()
-            .map(|d| d.to_coord() + loc)
+            .map(|d| loc + *d)
             .filter(|nc| nc.x >= 0 && nc.x < grid.width as i64 && nc.y >= 0 && nc.y < grid.height as i64)
         {
             if grid.get(nc).used <= locsize
@@ -154,7 +154,7 @@ fn phase1(grid: &Grid) -> usize {
 }
 
 fn phase2(grid: &Grid) -> usize {
-    let hole = grid.target_loc + CDir::W.to_coord();
+    let hole = grid.target_loc + CDir::W;
     (hole.x * 5) as usize
 }
 
@@ -172,7 +172,7 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use advent_lib::read2::test_input;
+    use ya_advent_lib::read::test_input;
 
     #[test]
     fn day22_test() {

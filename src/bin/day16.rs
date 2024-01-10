@@ -1,6 +1,6 @@
 use std::vec::Vec;
 use itertools::Itertools;
-use advent_lib::read::read_input;
+use ya_advent_lib::read::read_input;
 
 fn solve(input: &str, len: usize) -> String {
     let mut s = input.to_string();

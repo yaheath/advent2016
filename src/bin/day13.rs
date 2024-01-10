@@ -1,9 +1,9 @@
 use std::cmp::Reverse;
 use std::collections::{BinaryHeap, HashMap};
 use std::vec::Vec;
-use advent_lib::read::read_input;
-use advent_lib::bits::one_bits_u64;
-use advent_lib::coords::Coord2D;
+use ya_advent_lib::read::read_input;
+use ya_advent_lib::bits::one_bits_u64;
+use ya_advent_lib::coords::Coord2D;
 
 struct DynMap {
     cache: HashMap<Coord2D, bool>,

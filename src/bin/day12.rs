@@ -1,7 +1,7 @@
 use std::str::FromStr;
 use std::vec::Vec;
-use advent_lib::read::read_input;
-use advent_lib::vm_shell::{CPU, VM, VMShell, InstructionResult};
+use ya_advent_lib::read::read_input;
+use ya_advent_lib::vm_shell::{CPU, VM, VMShell, InstructionResult};
 
 #[derive(Clone, Copy, Debug)]
 enum RI {
@@ -124,7 +124,7 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use advent_lib::read::test_input;
+    use ya_advent_lib::read::test_input;
 
     #[test]
     fn day12_test() {

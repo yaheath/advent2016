@@ -1,12 +1,12 @@
 use std::collections::VecDeque;
 use std::vec::Vec;
-use advent_lib::read::read_input;
-use advent_lib::coords::{CDir, Coord2D};
+use ya_advent_lib::read::read_input;
+use ya_advent_lib::coords::{CDir, Coord2D};
 
 
 fn solve(passcode: &str, find_longest: bool) -> Option<String> {
-    let initial = Coord2D::new(0, 3);
-    let target = Coord2D::new(3, 0);
+    let initial = Coord2D::new(0, 0);
+    let target = Coord2D::new(3, 3);
     let mut longest: Option<String> = None;
     let mut queue: VecDeque<(Coord2D, String)> = VecDeque::new();
     queue.push_back((initial, String::new()));
@@ -28,7 +28,7 @@ fn solve(passcode: &str, find_longest: bool) -> Option<String> {
             .take(4)
             .zip([CDir::N, CDir::S, CDir::W, CDir::E])
             .flat_map(|(c,d)| match c {
-                'b'..='f' => Some((loc + d.to_coord(), d)),
+                'b'..='f' => Some((loc + d, d)),
                 _ => None,
             })
             .filter(|(c,_)| (0..4).contains(&c.x) && (0..4).contains(&c.y))

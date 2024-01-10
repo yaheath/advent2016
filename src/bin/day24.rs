@@ -1,9 +1,9 @@
 use std::cmp::Reverse;
 use std::collections::{BinaryHeap, HashMap};
 
-use advent_lib::grid::Grid;
-use advent_lib::read::read_input;
-use advent_lib::coords::Coord2D;
+use ya_advent_lib::grid::Grid;
+use ya_advent_lib::read::read_input;
+use ya_advent_lib::coords::Coord2D;
 
 #[derive(Copy, Clone)]
 enum Cell {
@@ -12,12 +12,18 @@ enum Cell {
     Waypoint(char),
 }
 
+impl From<char> for Cell {
+    fn from(c: char) -> Self {
+        match c {
+            '.' => Cell::Open,
+            d if d >= '0' && d <= '9' => Cell::Waypoint(d),
+            _ => Cell::Wall,
+        }
+    }
+}
+
 fn mkgrid(input: &Vec<String>) -> Grid<Cell> {
-    Grid::from_input(input, Cell::Wall, 0, |c| match c {
-        '.' => Cell::Open,
-        d if d >= '0' && d <= '9' => Cell::Waypoint(d),
-        _ => Cell::Wall,
-    })
+    Grid::from_input(input, Cell::Wall, 0)
 }
 
 fn distbetween(grid: &Grid<Cell>, x1: i64, y1: i64, x2: i64, y2: i64) -> usize {
@@ -92,7 +98,7 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use advent_lib::read::test_input;
+    use ya_advent_lib::read::test_input;
 
     #[test]
     fn day24_test() {

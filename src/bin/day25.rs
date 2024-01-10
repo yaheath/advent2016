@@ -1,9 +1,9 @@
 use std::str::FromStr;
 use std::vec::Vec;
-use advent_lib::read::read_input;
-use advent_lib::vm_shell::{CPU, VM, VMShell, InstructionResult};
-use advent_lib::vm_display::{InstructionDisplay, Formatter};
-use advent_lib::vm_debugger::Debugger;
+use ya_advent_lib::read::read_input;
+use ya_advent_lib::vm_shell::{CPU, VM, VMShell, InstructionResult};
+use ya_advent_lib::vm_display::{InstructionDisplay, Formatter};
+use ya_advent_lib::vm_debugger::Debugger;
 
 #[derive(Clone, Copy, Debug)]
 enum RI {

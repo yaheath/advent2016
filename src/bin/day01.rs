@@ -1,8 +1,8 @@
 use std::collections::HashSet;
 use std::str::FromStr;
 use std::vec::Vec;
-use advent_lib::read::read_input;
-use advent_lib::coords::{CDir, Coord2D};
+use ya_advent_lib::read::read_input;
+use ya_advent_lib::coords::{CDir, Coord2D};
 
 #[derive(Clone, Copy)]
 enum Mov {
@@ -45,7 +45,7 @@ fn part1(input: &Input) -> i64 {
             Mov::Right(n) => (dir.right(), n),
         };
         dir = newdir;
-        pos += dir.to_coord() * *steps;
+        pos += <CDir as Into<Coord2D>>::into(dir) * *steps;
     }
     pos.x.abs() + pos.y.abs()
 }
@@ -62,7 +62,7 @@ fn part2(input: &Input) -> i64 {
         };
         dir = newdir;
         for _ in 0..*steps {
-            pos += dir.to_coord();
+            pos += dir;
             if all_locs.contains(&pos) {
                 break 'outer;
             }

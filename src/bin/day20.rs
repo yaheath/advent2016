@@ -2,8 +2,8 @@ use std::ops::Range;
 use std::str::FromStr;
 use std::vec::Vec;
 use itertools::Itertools;
-use advent_lib::read::read_input;
-use advent_lib::range::{merge_ranges, range_from_str};
+use ya_advent_lib::read::read_input;
+use ya_advent_lib::range::{merge_ranges, range_from_str};
 
 struct Input {
     range: Range<u64>,
@@ -47,7 +47,7 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use advent_lib::read::test_input;
+    use ya_advent_lib::read::test_input;
 
     #[test]
     fn day20_test() {

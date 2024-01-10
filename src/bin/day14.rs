@@ -92,10 +92,10 @@ fn search(salt: &str, stretch: usize) -> usize {
                     let mtch = fives.iter().find(|(n, cc)| {
                         *n > start && *n <= start + 1000 && *cc == c
                     });
-                    if let Some(_) = mtch {
+                    if mtch.is_some() {
                         keys.push((start, c));
                         triples.pop_front();
-                        while fives.len() > 0 && fives[0].0 < start {
+                        while !fives.is_empty() && fives[0].0 < start {
                             fives.pop_front();
                         }
                     }

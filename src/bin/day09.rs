@@ -4,13 +4,13 @@ use ya_advent_lib::read::read_input;
 fn decompress(s: &str, ver: usize) -> usize {
     let mut iter = s.chars();
     let mut len = 0usize;
-    while let Some(c) = (&mut iter).next() {
+    while let Some(c) = iter.next() {
         match c {
             '(' => {
                 let mut ss = String::new();
                 let mut slen = 0;
                 let mut reps = 0;
-                while let Some(p) = (&mut iter).next() {
+                for p in iter.by_ref() {
                     match p {
                         'x' => {
                             slen = ss.parse::<usize>().unwrap();
@@ -24,7 +24,7 @@ fn decompress(s: &str, ver: usize) -> usize {
                     }
                 }
                 if ver == 2 {
-                    let r = (&mut iter).as_str();
+                    let r = iter.as_str();
                     let n = decompress(r.get(0..slen).unwrap(), 2);
                     len += n * reps;
                 }
@@ -32,7 +32,7 @@ fn decompress(s: &str, ver: usize) -> usize {
                     len += slen * reps;
                 }
                 for _ in 0..slen {
-                    (&mut iter).next();
+                    iter.next();
                 }
             },
             _ => {
@@ -43,11 +43,11 @@ fn decompress(s: &str, ver: usize) -> usize {
     len
 }
 
-fn part1(input: &Vec<String>) -> usize {
+fn part1(input: &[String]) -> usize {
     decompress(&input[0], 1)
 }
 
-fn part2(input: &Vec<String>) -> usize {
+fn part2(input: &[String]) -> usize {
     decompress(&input[0], 2)
 }
 

@@ -27,11 +27,11 @@ impl Input {
     }
 }
 
-fn part1(input: &Vec<Input>) -> usize {
+fn part1(input: &[Input]) -> usize {
     input.iter().filter(|i| i.is_triangle()).count()
 }
 
-fn part2(input: &Vec<Input>) -> usize {
+fn part2(input: &[Input]) -> usize {
     input.chunks(3)
         .flat_map(|slice| [
             Input{ a: slice[0].a, b: slice[1].a, c: slice[2].a },

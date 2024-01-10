@@ -68,7 +68,7 @@ fn bothparts(input: &str) -> (String, String) {
             if out1.len() < 8 {
                 out1.push(char6);
             }
-            if char6 >= '0' && char6 <= '7' {
+            if ('0'..='7').contains(&char6) {
                 let i = (char6 as u8 - b'0') as usize;
                 if out2[i] == '_' {
                     out2[i] = char7;

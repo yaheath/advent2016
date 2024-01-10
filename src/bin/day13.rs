@@ -15,12 +15,12 @@ impl DynMap {
     }
 
     fn get(&mut self, c: Coord2D) -> bool {
-        if !self.cache.contains_key(&c) {
+        if let std::collections::hash_map::Entry::Vacant(e) = self.cache.entry(c) {
             let x = c.x as u64;
             let y = c.y as u64;
             let v = x*x + 3*x + 2*x*y + y + y*y + self.seed;
             let v = one_bits_u64(v);
-            self.cache.insert(c, v & 1 == 1);
+            e.insert(v & 1 == 1);
         }
         self.cache[&c]
     }

@@ -107,7 +107,7 @@ impl Password {
                 else {
                     if n >= 4 { n += 1 }
                     n += 1;
-                    n = n % self.chars.len();
+                    n %= self.chars.len();
                     self.chars.rotate_right(n);
                 }
             },
@@ -121,12 +121,12 @@ impl Password {
             }
         }
     }
-    fn to_string(&self) -> String {
+    fn to_str(&self) -> String {
         self.chars.iter().collect()
     }
 }
 
-fn solve(input: &Vec<Input>, initial: &str, reverse: bool) -> String {
+fn solve(input: &[Input], initial: &str, reverse: bool) -> String {
     let mut pw = Password::new(initial, reverse);
     if reverse {
         input.iter().rev().for_each(|i| pw.apply(i));
@@ -134,14 +134,14 @@ fn solve(input: &Vec<Input>, initial: &str, reverse: bool) -> String {
     else {
         input.iter().for_each(|i| pw.apply(i));
     }
-    pw.to_string()
+    pw.to_str()
 }
 
-fn part1(input: &Vec<Input>) -> String {
+fn part1(input: &[Input]) -> String {
     solve(input, "abcdefgh", false)
 }
 
-fn part2(input: &Vec<Input>) -> String {
+fn part2(input: &[Input]) -> String {
     solve(input, "fbgdceah", true)
 }
 

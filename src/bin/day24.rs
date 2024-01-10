@@ -16,13 +16,13 @@ impl From<char> for Cell {
     fn from(c: char) -> Self {
         match c {
             '.' => Cell::Open,
-            d if d >= '0' && d <= '9' => Cell::Waypoint(d),
+            d if d.is_ascii_digit() => Cell::Waypoint(d),
             _ => Cell::Wall,
         }
     }
 }
 
-fn mkgrid(input: &Vec<String>) -> Grid<Cell> {
+fn mkgrid(input: &[String]) -> Grid<Cell> {
     Grid::from_input(input, Cell::Wall, 0)
 }
 
@@ -40,10 +40,9 @@ fn distbetween(grid: &Grid<Cell>, x1: i64, y1: i64, x2: i64, y2: i64) -> usize {
             return dist;
         }
         for n in current.neighbors4() {
-            match grid.get_or_default(n.x, n.y, Cell::Wall) {
-                Cell::Wall => continue,
-                _ => {},
-            };
+            if let Cell::Wall = grid.get_or_default(n.x, n.y, Cell::Wall) {
+                continue;
+            }
             if !visited.contains_key(&n) || dist + 1 < visited[&n] {
                 visited.insert(n, dist + 1);
                 queue.push((Reverse(dist + n.mdist_to(&current) as usize), n));
@@ -53,7 +52,7 @@ fn distbetween(grid: &Grid<Cell>, x1: i64, y1: i64, x2: i64, y2: i64) -> usize {
     panic!();
 }
 
-fn bothparts(input: &Vec<String>, partnum: usize) -> usize {
+fn bothparts(input: &[String], partnum: usize) -> usize {
     assert!(partnum == 1 || partnum == 2);
     let grid = mkgrid(input);
     let mut waypoints = grid

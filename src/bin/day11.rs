@@ -68,7 +68,7 @@ impl FromStr for Input {
         }).ok_or(())?;
         let mut items = Vec::new();
         for i in iter {
-            if i == "" || i.contains("nothing") {
+            if i.is_empty() || i.contains("nothing") {
                 continue;
             }
             let item = i.parse::<Item>()?;
@@ -86,7 +86,7 @@ struct State {
 }
 
 impl State {
-    fn from_input(input: &Vec<Input>, additional_items: &Vec<Item>) -> Self {
+    fn from_input(input: &[Input], additional_items: &Vec<Item>) -> Self {
         let mut floors: Vec<Vec<Item>> = Vec::with_capacity(4);
         for _ in 0..4 { floors.push(Vec::new()); }
         for i in input {
@@ -132,7 +132,7 @@ impl State {
             _ => vec![self.elevator + 1, self.elevator - 1],
         };
         self.floors[self.elevator].iter()
-            .map(|item| Some(item))
+            .map(Some)
             .chain(std::iter::once(None))
             .combinations(2)
             .map(|v| {
@@ -185,9 +185,9 @@ impl State {
     }
 
     fn is_complete(&self) -> bool {
-        self.floors[0].len() == 0 &&
-        self.floors[1].len() == 0 &&
-        self.floors[2].len() == 0
+        self.floors[0].is_empty() &&
+        self.floors[1].is_empty() &&
+        self.floors[2].is_empty()
     }
 }
 
@@ -226,7 +226,7 @@ impl SubState {
     }
 }
 
-fn solve(input: &Vec<Input>, additional_items: Vec<Item>) -> State {
+fn solve(input: &[Input], additional_items: Vec<Item>) -> State {
     let initial = State::from_input(input, &additional_items);
     let mut visited: HashMap<SubState, usize> = HashMap::new();
     visited.insert(SubState::from_state(&initial), 0);
@@ -250,12 +250,12 @@ fn solve(input: &Vec<Input>, additional_items: Vec<Item>) -> State {
     panic!();
 }
 
-fn part1(input: &Vec<Input>) -> usize {
+fn part1(input: &[Input]) -> usize {
     let state = solve(input, vec![]);
     state.step
 }
 
-fn part2(input: &Vec<Input>) -> usize {
+fn part2(input: &[Input]) -> usize {
     let state = solve(input, vec![
         Item::Chip("elerium".to_string()),
         Item::Generator("elerium".to_string()),

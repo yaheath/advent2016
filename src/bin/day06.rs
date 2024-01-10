@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::vec::Vec;
 use ya_advent_lib::read::read_input;
 
-fn bothparts(input: &Vec<String>) -> (String, String) {
+fn bothparts(input: &[String]) -> (String, String) {
     let mut hists: Vec<HashMap<char, usize>> = Vec::with_capacity(input[0].len());
     for _ in 0..input[0].len() {
         hists.push(HashMap::new());

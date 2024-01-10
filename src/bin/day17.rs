@@ -13,7 +13,7 @@ fn solve(passcode: &str, find_longest: bool) -> Option<String> {
     while let Some((loc, path)) = queue.pop_front() {
         if loc == target {
             if find_longest {
-                if !longest.is_some() || longest.as_ref().unwrap().len() < path.len() {
+                if longest.is_none() || longest.as_ref().unwrap().len() < path.len() {
                     longest = Some(path.clone());
                 }
                 continue;
@@ -46,11 +46,11 @@ fn solve(passcode: &str, find_longest: bool) -> Option<String> {
     longest
 }
 
-fn part1(input: &Vec<String>) -> String {
+fn part1(input: &[String]) -> String {
     solve(&input[0], false).unwrap()
 }
 
-fn part2(input: &Vec<String>) -> usize {
+fn part2(input: &[String]) -> usize {
     solve(&input[0], true).unwrap().len()
 }
 

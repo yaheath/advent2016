@@ -86,11 +86,11 @@ fn solve(num_elves: usize, is_part2: bool) -> usize {
     ring.current_elf()
 }
 
-fn part1(input: &Vec<usize>) -> usize {
+fn part1(input: &[usize]) -> usize {
     solve(input[0], false)
 }
 
-fn part2(input: &Vec<usize>) -> usize {
+fn part2(input: &[usize]) -> usize {
     solve(input[0], true)
 }
 

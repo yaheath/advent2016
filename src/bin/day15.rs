@@ -31,7 +31,7 @@ impl FromStr for Input {
     }
 }
 
-fn solve(input: &Vec<Input>) -> u64 {
+fn solve(input: &[Input]) -> u64 {
     for t in 0.. {
         if input.iter().all(|d|
             (d.disk + t + d.initial) % d.positions == 0
@@ -42,12 +42,12 @@ fn solve(input: &Vec<Input>) -> u64 {
     panic!()
 }
 
-fn part1(input: &Vec<Input>) -> u64 {
+fn part1(input: &[Input]) -> u64 {
     solve(input)
 }
 
-fn part2(input: &Vec<Input>) -> u64 {
-    let mut input = input.clone();
+fn part2(input: &[Input]) -> u64 {
+    let mut input = input.to_owned();
     input.push(Input{disk: input.len() as u64 + 1, initial: 0, positions: 11});
     solve(&input)
 }

@@ -11,11 +11,11 @@ struct Input {
 impl FromStr for Input {
     type Err = ();
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let mut itr = s.chars();
+        let itr = s.chars();
         let mut seq = String::new();
         let mut parts = Vec::new();
         let mut hypernets = Vec::new();
-        while let Some(c) = itr.next() {
+        for c in itr {
             match c {
                 '[' => {
                     parts.push(seq);
@@ -60,11 +60,11 @@ impl Input {
     }
 }
 
-fn part1(input: &Vec<Input>) -> usize {
+fn part1(input: &[Input]) -> usize {
     input.iter().filter(|row| row.supports_tls()).count()
 }
 
-fn part2(input: &Vec<Input>) -> usize {
+fn part2(input: &[Input]) -> usize {
     input.iter().filter(|row| row.supports_ssl()).count()
 }
 

@@ -132,7 +132,7 @@ impl CPU<char, i64, Instruction> for AssembunnyCPU {
                 if resolve(*x) != 0 {
                     let jump = resolve(*y);
                     if jump < 0 {
-                        return InstructionResult::JumpBck(jump.abs() as usize);
+                        return InstructionResult::JumpBck(jump.unsigned_abs() as usize);
                     }
                     else {
                         return InstructionResult::JumpFwd(jump as usize);
@@ -169,9 +169,9 @@ struct AssembunnyVM {
 }
 
 impl AssembunnyVM {
-    fn new(program: &Vec<Instruction>, a: i64) -> Self {
+    fn new(program: &[Instruction], a: i64) -> Self {
         let cpu = AssembunnyCPU{};
-        let mut shell = VMShell::new(program.clone(), 0);
+        let mut shell = VMShell::new(program.to_owned(), 0);
         shell.vm.set_reg('a', a);
         Self { cpu, shell }
     }
@@ -180,14 +180,14 @@ impl AssembunnyVM {
     }
 }
 
-fn part1(input: &Vec<Instruction>) -> i64 {
+fn part1(input: &[Instruction]) -> i64 {
     let mut vm = AssembunnyVM::new(input, 7);
     vm.run();
     //let _ = Debugger::run(&mut vm.shell, &vm.cpu);
     vm.shell.vm.get_reg('a')
 }
 
-fn part2(input: &Vec<Instruction>) -> i64 {
+fn part2(input: &[Instruction]) -> i64 {
     let mut vm = AssembunnyVM::new(input, 12);
     //vm.run();
     let _ = Debugger::run(&mut vm.shell, &vm.cpu);

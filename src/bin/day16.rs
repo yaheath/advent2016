@@ -23,11 +23,11 @@ fn solve(input: &str, len: usize) -> String {
     s
 }
 
-fn part1(input: &Vec<String>) -> String {
+fn part1(input: &[String]) -> String {
     solve(&input[0], 272)
 }
 
-fn part2(input: &Vec<String>) -> String {
+fn part2(input: &[String]) -> String {
     solve(&input[0], 35651584)
 }
 

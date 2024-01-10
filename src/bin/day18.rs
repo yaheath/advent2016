@@ -15,23 +15,22 @@ impl FromStr for Input {
     }
 }
 
-fn nextrow(tiles: &Vec<bool>) -> Vec<bool> {
+fn nextrow(tiles: &[bool]) -> Vec<bool> {
     std::iter::once(&false)
         .chain(tiles.iter())
         .chain(std::iter::once(&false))
         .tuple_windows()
-        .map(|tuple| match tuple {
-            (&true, &true, &false) => true,
-            (&false, &true, &true) => true,
-            (&true, &false, &false) => true,
-            (&false, &false, &true) => true,
-            _ => false,
-        })
+        .map(|tuple| matches!(tuple,
+            (&true, &true, &false) |
+            (&false, &true, &true) |
+            (&true, &false, &false) |
+            (&false, &false, &true))
+        )
         .collect()
 }
 
-fn num_safe(tiles: &Vec<bool>, rows: usize) -> usize {
-    let mut tiles = tiles.clone();
+fn num_safe(tiles: &[bool], rows: usize) -> usize {
+    let mut tiles = tiles.to_owned();
     let mut sum = tiles.iter().filter(|c| !**c).count();
     for _ in 0..(rows-1) {
         tiles = nextrow(&tiles);
@@ -40,11 +39,11 @@ fn num_safe(tiles: &Vec<bool>, rows: usize) -> usize {
     sum
 }
 
-fn part1(input: &Vec<Input>) -> usize {
+fn part1(input: &[Input]) -> usize {
     num_safe(&input[0].tiles, 40)
 }
 
-fn part2(input: &Vec<Input>) -> usize {
+fn part2(input: &[Input]) -> usize {
     num_safe(&input[0].tiles, 400000)
 }
 

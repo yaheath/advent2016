@@ -97,7 +97,7 @@ struct BotField {
     breakpoint: Option<(ChipNum, ChipNum)>,
 }
 impl BotField {
-    fn new(input: &Vec<Input>) -> Self {
+    fn new(input: &[Input]) -> Self {
         let mut bots: HashMap<BotNum, Bot> = HashMap::new();
         let mut rules: HashMap<BotNum, (Dest, Dest)> = HashMap::new();
         let outputs = HashMap::new();
@@ -127,7 +127,7 @@ impl BotField {
     }
     fn step(&mut self) -> StepResult {
         let queued: Vec<BotNum> = self.bots.iter().filter(|(_,b)| b.is_full()).map(|(k,_)| *k).collect();
-        if queued.len() == 0 {
+        if queued.is_empty() {
             return StepResult::Deadlock;
         }
         let mut bp_bot: Option<BotNum> = None;
@@ -172,7 +172,7 @@ impl BotField {
     }
 }
 
-fn process(input: &Vec<Input>, item1: ChipNum, item2: ChipNum) -> usize {
+fn process(input: &[Input], item1: ChipNum, item2: ChipNum) -> usize {
     let mut bots = BotField::new(input);
     bots.set_breakpoint(item1, item2);
     loop {
@@ -184,16 +184,15 @@ fn process(input: &Vec<Input>, item1: ChipNum, item2: ChipNum) -> usize {
     }
 }
 
-fn part1(input: &Vec<Input>) -> usize {
+fn part1(input: &[Input]) -> usize {
     process(input, 17, 61)
 }
 
-fn part2(input: &Vec<Input>) -> usize {
+fn part2(input: &[Input]) -> usize {
     let mut bots = BotField::new(input);
     loop {
-        match bots.step() {
-            StepResult::Deadlock => {break;},
-            _ => {},
+        if let StepResult::Deadlock = bots.step() {
+            break;
         }
     }
     bots.outputs[&0][0] *

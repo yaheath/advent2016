@@ -16,14 +16,14 @@ impl FromStr for Input {
     }
 }
 
-fn part1(input: &Vec<Input>) -> u64 {
+fn part1(input: &[Input]) -> u64 {
     let mut iter = merge_ranges(
         input.iter().map(|i| i.range.clone()).sorted_by_key(|k| k.start)
     );
     iter.next().unwrap().end
 }
 
-fn part2(input: &Vec<Input>) -> u64 {
+fn part2(input: &[Input]) -> u64 {
     let mut last_end = 0_u64;
     let mut count = 0;
     for r in merge_ranges(

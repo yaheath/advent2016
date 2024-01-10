@@ -57,7 +57,7 @@ impl Node {
     }
 }
 
-fn part1(input: &Vec<Input>) -> usize {
+fn part1(input: &[Input]) -> usize {
     input.iter()
         .tuple_combinations()
         .filter(|(a, b)|
@@ -75,7 +75,7 @@ struct Grid {
     target_loc: Coord2D,
 }
 impl Grid {
-    fn from_input(input: &Vec<Input>) -> Self {
+    fn from_input(input: &[Input]) -> Self {
         let map: HashMap<Coord2D, Node> =
             input.iter()
                 .map(|i| (Coord2D::new(i.x, i.y), Node::new(i)))
@@ -114,9 +114,9 @@ impl Grid {
                 let s = format!("{}/{}{m}", cell.used, cell.size);
                 print!(" {s:^8}");
             }
-            println!("");
+            println!();
         }
-        println!("");
+        println!();
     }
 }
 
@@ -158,7 +158,7 @@ fn phase2(grid: &Grid) -> usize {
     (hole.x * 5) as usize
 }
 
-fn part2(input: &Vec<Input>) -> usize {
+fn part2(input: &[Input]) -> usize {
     let grid = Grid::from_input(input);
     phase1(&grid) + phase2(&grid)
 }

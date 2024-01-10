@@ -50,14 +50,14 @@ impl Input {
     }
 }
 
-fn part1(input: &Vec<Input>) -> u64 {
+fn part1(input: &[Input]) -> u64 {
     input.iter()
         .filter(|i| i.is_real())
         .map(|i| i.sector_id)
         .sum()
 }
 
-fn part2(input: &Vec<Input>) -> u64 {
+fn part2(input: &[Input]) -> u64 {
     input.iter()
         .filter(|i| i.is_real())
         .map(|i| (i, i.decrypt()))

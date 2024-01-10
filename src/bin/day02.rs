@@ -53,7 +53,7 @@ fn next_digit(d: char, dir: CDir) -> char {
     }
 }
 
-fn part1(input: &Vec<Input>) -> String {
+fn part1(input: &[Input]) -> String {
     let mut out = String::new();
     let mut prev_digit = '5';
     for row in input {
@@ -103,7 +103,7 @@ fn next_digit2(d: char, dir: CDir) -> char {
     }
 }
 
-fn part2(input: &Vec<Input>) -> String {
+fn part2(input: &[Input]) -> String {
     let mut out = String::new();
     let mut prev_digit = '5';
     for row in input {

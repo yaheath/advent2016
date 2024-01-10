@@ -45,7 +45,7 @@ impl FromStr for Input {
     }
 }
 
-fn process(input: &Vec<Input>, width: i64, height: i64) -> Grid<bool> {
+fn process(input: &[Input], width: i64, height: i64) -> Grid<bool> {
     let mut grid = Grid::new(0, 0, width - 1, height - 1, false);
     for i in input {
         match i {

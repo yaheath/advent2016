@@ -606,6 +606,8 @@ checksum = "9aec5da331524158c6d1a4ac0ab1541149c0b9505fde06423b02f5ef0106b9f0"
 [[package]]
 name = "ya_advent_lib"
 version = "1.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "11542d88315c6338b1c8b75e6438c13414821c80e2d2c2dafc1e889391f92884"
 dependencies = [
  "crossterm",
  "itertools 0.11.0",

@@ -10,14 +10,14 @@ enum Mov {
     Right(i64),
 }
 impl FromStr for Mov {
-    type Err = ();
+    type Err = String;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let (chr, num) = s.split_at(1);
-        let num = num.parse::<i64>().unwrap();
+        let num = num.parse::<i64>().map_err(|_| format!("could not parse '{num}' as integer"))?;
         match chr {
             "L" => Ok(Mov::Left(num)),
             "R" => Ok(Mov::Right(num)),
-            _ => panic!(),
+            _ => Err(format!("Expecting L or R, got {chr}")),
         }
     }
 }
@@ -27,12 +27,12 @@ struct Input {
 }
 
 impl FromStr for Input {
-    type Err = ();
+    type Err = String;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let moves: Vec<Mov> = s.split(", ")
-            .map(|ss| ss.parse::<Mov>().unwrap())
-            .collect();
-        Ok(Input{moves})
+        s.split(", ")
+            .map(|ss| ss.parse::<Mov>())
+            .collect::<Result<Vec<Mov>,_>>()
+            .map(|moves| Input{moves})
     }
 }
 
